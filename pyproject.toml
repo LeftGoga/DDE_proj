@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "data engineering"
+version = "0.1.0"
+description = ""
+authors = ["Egor Polyakov <leftgoga@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^2.2.3"
+requests = "^2.32.3"
+bs4 = "^0.0.2"
+tqdm = "^4.67.0"
+clickhouse-connect = "^0.8.7"
+html2text = "^2024.2.26"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
