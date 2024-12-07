@@ -1,5 +1,5 @@
 import json
-from classes import get_items
+from items import get_items
 from mechanics import get_mechanics
 from spells import get_spells
 from dop_info import get_dop_info

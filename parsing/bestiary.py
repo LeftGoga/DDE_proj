@@ -86,7 +86,7 @@ def parse_monster_page(url, session):
         for action in action_divs:
             monster_data['Actions'].append(clean_text(action.get_text(strip=True)))
 
-    # Extract Description
+
     description_section = soup.find('h3', class_='subsection-title', string="Описание")
     if description_section:
         description_div = description_section.find_next('div')

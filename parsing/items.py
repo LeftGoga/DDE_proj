@@ -1,8 +1,7 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-import random
-from tqdm import tqdm
+from tqdm import tqdm  # Import tqdm
 
 from parsing.utils import clean_text
 
@@ -15,19 +14,21 @@ def get_items():
     if not (r):
         print("not found", url)
     soup = BeautifulSoup(r.text)
-    # print(soup)
-    for one in tqdm(soup.find_all("a", {"class": "list-item-wrapper"})):
-        item_name = one.find("div").text
-        item_link = "https://dnd.su" + one["href"]
 
-        item_r = requests.get(item_link)
+    # Find all item links first
+    item_links = [one["href"] for one in soup.find_all("a", {"class": "list-item-wrapper"})]
 
+    # Use tqdm to show progress bar for each item
+    for item_link in tqdm(item_links, desc="Processing items", unit="item"):
+        item_url = "https://dnd.su" + item_link
+        item_r = requests.get(item_url)
         item_soup = BeautifulSoup(item_r.text, "html.parser")
 
+        item_name = clean_text(item_soup.find("h1").text if item_soup.find("h1") else "Unnamed Item")
         item_cost = item_soup.find("li", {"class": "price"})
         if item_cost:
             item_cost = clean_text(item_cost.get_text())
-            item_cost = item_cost[item_cost.find(":") :].strip()
+            item_cost = item_cost[item_cost.find(":"):].strip()
         else:
             item_cost = None
 
@@ -44,7 +45,7 @@ def get_items():
             item_description = []
 
         item = {"name": item_name, "cost": item_cost, "type": item_type, "description": item_description}
-        # print(item)
+        print(item)  # Optional: You can choose to log this instead of print
         items.append(item)
 
     return items
