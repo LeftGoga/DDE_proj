@@ -13,6 +13,9 @@ bs4 = "^0.0.2"
 tqdm = "^4.67.0"
 clickhouse-connect = "^0.8.7"
 html2text = "^2024.2.26"
+pgvector = "^0.3.6"
+sqlalchemy = "^2.0.36"
+psycopg2 = "^2.9.10"
 
 
 [build-system]
