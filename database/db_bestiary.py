@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from pgvector.sqlalchemy import VECTOR
 import ast
 import random
-
+from query import find_similar_records
 DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
 
 engine = create_engine(DATABASE_URL)
@@ -96,7 +96,7 @@ def find_similar_creatures(session, query_embedding, top_n=5):
 
     return result
 
-def init_db_creatures(csv_path):
+def init_db_creatures(csv_path,query_embedding=None):
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
@@ -104,13 +104,10 @@ def init_db_creatures(csv_path):
     session = Session()
 
     load_embeddings_from_csv(session, csv_path)
-
-    query_embedding = [random.uniform(0.1, 2.5) for _ in range(312)]
-
-    similar_creatures = find_similar_creatures(session, query_embedding)
-
-    for name, description, distance in similar_creatures:
-        print(f"Name: {name}, Description: {description}, Distance: {distance}")
+    if query_embedding:
+        similar_spells = find_similar_records(session, CreatureEmbedding, query_embedding)
+        for spell in similar_spells:
+            print(f"Name: {spell.title}, Description: {spell.desc}")
 
     session.close()
 

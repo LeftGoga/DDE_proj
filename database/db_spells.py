@@ -4,7 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, String, select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import VECTOR
 import ast
-
+from query import find_similar_records
 DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
 
 engine = create_engine(DATABASE_URL)
@@ -89,23 +89,22 @@ def find_similar_spells(session, query_embedding, top_n=5):
     results = session.scalars(stmt).all()
     return results
 
-def init_db_spells(csv_path, query_embedding=None):
+def init_db_spells(csv_path,query_embedding=None):
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
     Session = sessionmaker(bind=engine)
     session = Session()
-
-    load_embeddings_from_csv(session, csv_path)
-
     if query_embedding:
-        similar_spells = find_similar_spells(session, query_embedding)
+        similar_spells = find_similar_records(session, SpellEmbedding, query_embedding)
         for spell in similar_spells:
             print(f"Name: {spell.title}, Description: {spell.desc}")
+    load_embeddings_from_csv(session, csv_path)
+
 
     session.close()
 
 if __name__ == "__main__":
     csv_path = "spells.csv"
     query_embedding = [0.1] * 312
-    init_db_spells(csv_path, query_embedding)
+    init_db_spells(csv_path)
