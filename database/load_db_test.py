@@ -5,7 +5,7 @@ from db_bestiary import init_db_creatures, find_similar_records as find_similar_
 from db_spells import init_db_spells, find_similar_records as find_similar_spells
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-
+from update_db import update_database
 import random
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
@@ -18,10 +18,11 @@ from query import find_similar_records  # Import the generic querying function
 # Configuration for database URL and CSV paths
 DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
 CSV_PATHS = {
-    "bestiary": "bestiary.csv",
-    "spells": "spells.csv",
-    "rules": "rules.csv",
-    "items": "items.csv",
+    "bestiary": "./data/bestiary.csv",
+    "spells": "./data/spells.csv",
+    "rules": "./data/rules.csv",
+    "items": "./data/main.csv",
+    "update":"./data/update.csv"
 }
 
 # Create a database engine
@@ -55,12 +56,12 @@ def initialize_databases():
 
 def query_databases():
     """Query all databases for similar records."""
-    # Create a session
+
     Session = sessionmaker(bind=engine)
     session = Session()
 
     try:
-        # Query the bestiary database
+
         print("Querying bestiary database...")
         query_embedding = generate_query_embedding()
         similar_creatures = find_similar_records(session, CreatyreEmbedding, query_embedding, top_n=5)
@@ -68,7 +69,7 @@ def query_databases():
             print(f"Bestiary: Name: {creature.name}, Description: {creature.description}")
         print("Bestiary database queried successfully.\n")
 
-        # Query the spells database
+
         print("Querying spells database...")
         query_embedding = generate_query_embedding()
         similar_spells = find_similar_records(session, SpellEmbedding, query_embedding, top_n=5)
@@ -76,7 +77,7 @@ def query_databases():
             print(f"Spells: Name: {spell.title}, Description: {spell.desc}")
         print("Spells database queried successfully.\n")
 
-        # Query the rules database
+
         print("Querying rules database...")
         query_embedding = generate_query_embedding()
         similar_rules = find_similar_records(session, RulesEmbedding, query_embedding, top_n=5)
@@ -84,7 +85,7 @@ def query_databases():
             print(f"Rules: Name: {rule.name}, Description: {rule.description}")
         print("Rules database queried successfully.\n")
 
-        # Query the items database
+
         print("Querying items database...")
         query_embedding = generate_query_embedding()
         similar_items = find_similar_records(session, ItemsEmbedding, query_embedding, top_n=5)
@@ -98,9 +99,17 @@ def query_databases():
         # Close the session
         session.close()
 
+def update_items():
+    """Update the items database."""
+    print("Updating items database...")
+
+    update_database(engine, ItemsEmbedding, CSV_PATHS["update"])
+
 if __name__ == "__main__":
-    # Initialize all databases
+    # Initialize all database
     initialize_databases()
 
     # Query all databases
+    query_databases()
+    update_items()
     query_databases()

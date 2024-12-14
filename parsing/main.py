@@ -12,7 +12,7 @@ def main():
     for index, parse_function in enumerate(parse_functions):
         result = parse_function()
         file_name = f"{file_names[index]}.json"
-        with open(file_name, 'w', encoding='utf-8') as json_file:
+        with open("./data/"+file_name, 'w', encoding='utf-8') as json_file:
             print(f"creating {file_name}")
             json.dump(result, json_file, ensure_ascii=False, indent=2)
         print(f"Saved: {file_name}")

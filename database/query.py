@@ -15,7 +15,7 @@ def find_similar_records(session, model, query_embedding, top_n=5):
     """
     stmt = (
         select(model)
-        .order_by(model.embedding.l2_distance(query_embedding))
+        .order_by(model.embeddings.l2_distance(query_embedding))
         .limit(top_n)
     )
     results = session.scalars(stmt).all()

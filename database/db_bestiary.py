@@ -34,7 +34,7 @@ class CreatureEmbedding(Base):
     damage_vulnerability = Column(String, nullable=True)
     search_desc = Column(Text, nullable=True)
     chunks = Column(Text, nullable=True)
-    embedding = Column(VECTOR(312), nullable=False)
+    embeddings = Column(VECTOR(312), nullable=False)
 
 def clean_embedding(embedding_str, expected_dim=312):
     try:
@@ -48,12 +48,9 @@ def clean_embedding(embedding_str, expected_dim=312):
         return [0.0] * expected_dim
 
 def load_embeddings_from_csv(session, csv_path):
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path,keep_default_na=False)
     df = df.head(10)
     df['embeddings'] = df['embeddings'].apply(clean_embedding)
-    df['Skills'] = df['Skills'].astype(str)
-    df['Damage_Immunity'] = df['Damage_Immunity'].astype(str)
-    df["Saving_throws"] = df["Saving_throws"].astype(str)
 
     if 'embeddings' not in df.columns:
         raise ValueError("CSV must have an 'embeddings' column.")
@@ -79,7 +76,7 @@ def load_embeddings_from_csv(session, csv_path):
                 damage_vulnerability=row.get('Damage_Vulnerability', ''),
                 search_desc=row.get('search_desc', ''),
                 chunks=row.get('chunks', ''),
-                embedding=row.get('embeddings', '')
+                embeddings=row.get('embeddings', '')
             )
             session.add(creature)
         except (ValueError, SyntaxError) as e:

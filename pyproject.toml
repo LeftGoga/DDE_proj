@@ -16,6 +16,9 @@ html2text = "^2024.2.26"
 pgvector = "^0.3.6"
 sqlalchemy = "^2.0.36"
 psycopg2 = "^2.9.10"
+langchain-experimental = "^0.3.3"
+langchain-huggingface = "^0.1.2"
+langchain-core = "^0.3.24"
 
 
 [build-system]

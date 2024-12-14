@@ -27,7 +27,7 @@ class SpellEmbedding(Base):
     classes = Column(String, nullable=True)
     source = Column(String, nullable=True)
     desc = Column(String, nullable=True)
-    embedding = Column(VECTOR(312), nullable=False)
+    embeddings = Column(VECTOR(312), nullable=False)
 
 def clean_embedding(embedding_str, expected_dim=312):
     try:
@@ -47,7 +47,7 @@ def clean_embedding(embedding_str, expected_dim=312):
         return [0.0] * expected_dim
 
 def load_embeddings_from_csv(session, csv_path):
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path,keep_default_na=False)
     df = df.head(10)
 
     df['embeddings'] = df['embeddings'].apply(clean_embedding)
@@ -72,7 +72,7 @@ def load_embeddings_from_csv(session, csv_path):
                 classes=row.get('classes', ''),
                 source=row.get('source', ''),
                 desc=row.get('desc', ''),
-                embedding=row['embeddings']
+                embeddings=row['embeddings']
             )
             session.add(spell)
         except (ValueError, SyntaxError) as e:

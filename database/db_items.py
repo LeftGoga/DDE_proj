@@ -30,7 +30,7 @@ class ItemsEmbedding(Base):
     type = Column(String, nullable=False)
     description = Column(String, nullable=True)
     chunks = Column(String, nullable=True)
-    embedding = Column(VECTOR(312), nullable=False)  # Ensure VECTOR type
+    embeddings = Column(VECTOR(312), nullable=False)  # Ensure VECTOR type
 
 
 def clean_embedding(embedding_str, expected_dim=312):
@@ -47,7 +47,7 @@ def clean_embedding(embedding_str, expected_dim=312):
 
 def load_embeddings_from_csv(session, csv_path):
     """Load embeddings from a CSV file into the database."""
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path,keep_default_na=False)
     df = df.head(10)  # Limit to 10 rows for testing
     df['embeddings'] = df['embeddings'].apply(clean_embedding)
 
@@ -63,7 +63,7 @@ def load_embeddings_from_csv(session, csv_path):
                 type=row.get('type', ''),
                 description=row.get('description', ''),
                 chunks=row.get('chunks', ''),
-                embedding=row.get('embeddings', '')
+                embeddings=row.get('embeddings', '')
             )
             session.add(item)
         except (ValueError, SyntaxError) as e:
