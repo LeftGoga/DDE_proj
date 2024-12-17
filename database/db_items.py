@@ -1,4 +1,6 @@
 
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
 
 import pandas as pd
 from sqlalchemy import create_engine, Column, Integer, String, select
@@ -8,8 +10,6 @@ import ast
 import random
 from database.query import find_similar_records
 
-from configs import DB_PATH
-DATABASE_URL = DB_PATH
 
 
 engine = create_engine(DATABASE_URL)

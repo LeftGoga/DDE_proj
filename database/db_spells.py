@@ -1,13 +1,14 @@
 
+
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
+
 import pandas as pd
 from sqlalchemy import create_engine, Column, Integer, String, select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import VECTOR
 import ast
 from database.query import find_similar_records
-
-from configs import DB_PATH
-DATABASE_URL = DB_PATH
 
 engine = create_engine(DATABASE_URL)
 

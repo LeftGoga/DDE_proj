@@ -1,3 +1,5 @@
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
 import random
 from loguru import logger
 from sqlalchemy.orm import sessionmaker
@@ -9,14 +11,7 @@ from database.db_bestiary import init_db_creatures,  CreatureEmbedding
 from database.db_spells import SpellEmbedding, init_db_spells
 from database.query import find_similar_records
 from database.update_db import update_database
-from configs import DB_PATH
-DATABASE_URL = DB_PATH
-CSV_PATHS = {
-    "bestiary": "C:\\Users\\leftg\\PycharmProjects\\data_engineering\\data\\bestiary.csv",
-    "spells": "C:\\Users\\leftg\\PycharmProjects\\data_engineering\\data\\spells.csv",
-    "rules": "C:\\Users\\leftg\\PycharmProjects\\data_engineering\\data\\rules.csv",
-    "items": "C:\\Users\\leftg\\PycharmProjects\\data_engineering\\data\\items.csv",
-}
+from configs import CSV_PATHS
 
 
 logger.remove()

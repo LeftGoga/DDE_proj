@@ -1,3 +1,6 @@
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
+
 import pandas as pd
 from sqlalchemy import create_engine, Column, Integer, String, Text
 from sqlalchemy.ext.declarative import declarative_base
@@ -5,9 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from pgvector.sqlalchemy import VECTOR
 import ast
 from database.query import find_similar_records
-import os
-from configs import DB_PATH
-DATABASE_URL = DB_PATH
+
 
 engine = create_engine(DATABASE_URL)
 
@@ -109,6 +110,8 @@ def init_db_creatures(csv_path,query_embedding=None):
 
     session.close()
 
-if __name__ == "__main__":
-    csv_path = "../data/bestiary.csv"
-    init_db_creatures(csv_path)
+# if __name__ == "__main__":
+#     # csv_path = "../data/bestiary.csv"
+#     # init_db_creatures(csv_path)
+
+

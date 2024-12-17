@@ -1,4 +1,5 @@
-
+from dotenv import load_dotenv
+load_dotenv("../.env")
 import time
 from loguru import logger
 from prefect import flow, task
@@ -7,7 +8,7 @@ from parsing.main import parse_all
 from preprocessing.preprocessing import preprocess_all
 from database.load_db import initialize_databases
 
-# Configure logging with loguru
+
 logger.remove()
 logger.add(
     sink=lambda msg: print(msg, end=''),
@@ -89,4 +90,5 @@ def data_processing_workflow():
 
 if __name__ == "__main__":
     # Execute the workflow
+
     data_processing_workflow()
