@@ -4,8 +4,10 @@ from sqlalchemy import create_engine, Column, Integer, String, select
 from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import VECTOR
 import ast
-from query import find_similar_records
-DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
+from database.query import find_similar_records
+
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
 
 engine = create_engine(DATABASE_URL)
 

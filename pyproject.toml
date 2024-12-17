@@ -19,7 +19,16 @@ psycopg2 = "^2.9.10"
 langchain-experimental = "^0.3.3"
 langchain-huggingface = "^0.1.2"
 langchain-core = "^0.3.24"
+prefect = "^3.1.6"
+torch = {version = "^2.5.1+cu124", source = "pytorch_gpu"}
+loguru = "^0.7.3"
+python-dotenv = "^1.0.1"
 
+
+[[tool.poetry.source]]
+name = "pytorch_gpu"
+url = "https://download.pytorch.org/whl/cu124"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]

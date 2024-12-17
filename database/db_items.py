@@ -1,4 +1,4 @@
-# init_db_items.py
+
 
 import pandas as pd
 from sqlalchemy import create_engine, Column, Integer, String, select
@@ -6,21 +6,20 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from pgvector.sqlalchemy import VECTOR
 import ast
 import random
-from query import find_similar_records
-# Define the database URL (replace with your own credentials)
-DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
+from database.query import find_similar_records
 
-# Create a database engine
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
+
+
 engine = create_engine(DATABASE_URL)
 
-# Ensure pgvector extension is enabled (run this manually if needed)
-# CREATE EXTENSION IF NOT EXISTS vector;
 
-# Define the base class for ORM
+
 Base = declarative_base()
 
 
-# Define the ItemsEmbedding model
+
 class ItemsEmbedding(Base):
     __tablename__ = 'items_embeddings'
 
@@ -72,30 +71,28 @@ def load_embeddings_from_csv(session, csv_path):
     session.commit()
 
 def init_db_items(csv_path, query_embedding=None):
-    """Initialize the database, load data, and find similar items."""
-    # Drop and recreate the table
+
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
 
-    # Create a session
+
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    # Load embeddings from CSV
     load_embeddings_from_csv(session, csv_path)
 
-    # Find similar items if a query embedding is provided
+
     if query_embedding:
         similar_spells = find_similar_records(session, ItemsEmbedding, query_embedding)
         for spell in similar_spells:
             print(f"Name: {spell.title}, Description: {spell.desc}")
-    # Close the session
+
     session.close()
 
 
 if __name__ == "__main__":
     # Path to the CSV file
-    csv_path = "items.csv"
+    csv_path = "../data/items.csv"
 
     # Example query embedding (replace with your actual query embedding)
     query_embedding = [random.uniform(1.5, 1.9) for _ in range(312)]

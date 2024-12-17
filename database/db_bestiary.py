@@ -4,9 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from pgvector.sqlalchemy import VECTOR
 import ast
-import random
-from query import find_similar_records
-DATABASE_URL = "postgresql+psycopg2://leftg:673091@localhost:5432/dnd"
+from database.query import find_similar_records
+import os
+from configs import DB_PATH
+DATABASE_URL = DB_PATH
 
 engine = create_engine(DATABASE_URL)
 
@@ -109,5 +110,5 @@ def init_db_creatures(csv_path,query_embedding=None):
     session.close()
 
 if __name__ == "__main__":
-    csv_path = "bestiary.csv"
+    csv_path = "../data/bestiary.csv"
     init_db_creatures(csv_path)

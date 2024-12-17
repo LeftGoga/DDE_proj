@@ -10,9 +10,9 @@ from parsing.utils import clean_text
 import json
 
 
-def get_spells(sample=None):
+def get_spells(sample=10):
     res = []
-    with open("spells.json", "r", encoding="utf-8") as f:
+    with open("C:\\Users\\leftg\\PycharmProjects\\data_engineering\\parsing\\spells.json", "r", encoding="utf-8") as f:
         spells = json.loads(f.read())
     if sample:
         ar = random.sample(spells, sample)

@@ -95,7 +95,7 @@ def parse_monster_page(url, session):
 
     return monster_data
 
-def get_monsters(sample=None):
+def get_monsters(sample=5):
 
     with requests.Session() as session:
         monster_links = get_monster_links(session)

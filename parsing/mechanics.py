@@ -9,14 +9,14 @@ from tqdm import tqdm
 from parsing.utils import clean_text
 
 
-def get_mechanics(sample=None):
+def get_mechanics(sample=5):
     res = []
     url = "https://dnd.su/articles/mechanics/"
     r = requests.get(url)
     r.encoding = "utf-8"
     if not (r):
         print("not found", url)
-    soup = BeautifulSoup(r.text)
+    soup = BeautifulSoup(r.text,features="html.parser")
 
     if sample:
         ar = random.sample(soup.find_all("a", {"class": "read-more"}), sample)
