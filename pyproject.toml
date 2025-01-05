@@ -23,6 +23,8 @@ prefect = "^3.1.6"
 torch = {version = "^2.5.1+cu124", source = "pytorch_gpu"}
 loguru = "^0.7.3"
 python-dotenv = "^1.0.1"
+streamlit = "^1.41.1"
+matplotlib = "^3.10.0"
 
 
 [[tool.poetry.source]]

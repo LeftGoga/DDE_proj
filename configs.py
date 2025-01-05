@@ -8,3 +8,4 @@ CSV_PATHS = {
     "rules": "../data/rules.csv",
     "items": "../data/items.csv",
 }
+model_name = "DeepPavlov/rubert-base-cased"

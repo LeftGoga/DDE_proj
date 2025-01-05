@@ -7,12 +7,13 @@ from loguru import logger
 import torch
 import re
 from datetime import datetime as time
+from configs import model_name
 device = "cuda" if torch.cuda.is_available() else "cpu"
 logger.info(f"Device used: {device}")
 
 
 model_params={"device":device}
-embed_fun = HuggingFaceEmbeddings(model_name="cointegrated/rubert-tiny2", model_kwargs = model_params)
+embed_fun = HuggingFaceEmbeddings(model_name=model_name, model_kwargs = model_params)
 logger.remove()
 logger.add(
     sink=lambda msg: print(msg, end=''),
